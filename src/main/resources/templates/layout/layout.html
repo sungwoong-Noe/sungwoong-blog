@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html th:fragment="layout (head, content)" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head th:replace="${head}"></head>
+<body>
+
+<header>
+    <ul>
+        <li><a href="/">홈</a></li>
+        <li><a href="/write">작성</a></li>
+        <li><a href="/category/edit">카테고리</a></li>
+    </ul>
+</header>
+<section th:replace="${content}"></section>
+
+</body>
+</html>

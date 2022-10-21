@@ -1,0 +1,11 @@
+package com.swnoe.blog.logtrace.trace;
+
+import com.swnoe.blog.logtrace.TraceStatus;
+
+public interface LogTrace {
+    TraceStatus begin(String message);
+
+    void end(TraceStatus status);
+
+    void exception(TraceStatus status, Exception e);
+}

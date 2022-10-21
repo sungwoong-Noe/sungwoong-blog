@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout.html :: layout(~{::head}, ~{::section})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리</title>
+</head>
+<body>
+<section>
+    카테고리 수정 페이지
+
+    <div>
+        <label for="parentCategoryName">대분류</label>
+        <input type="text" id="parentCategoryName" name="name" placeholder="카테고리 이름">
+        <button id="btn_parentCategory_regist">+</button>
+    </div>
+    <div id="parentCategoryList">
+        <div th:each="parent: ${parentCategoryList}">
+            <p th:text="${parent.name}"></p>
+            <input type="hidden" th:value="${parent.id}">
+            <button class="btn_delete" type="button" onclick="categoryDelete(this)">-</button>
+        </div>
+    </div>
+
+<script type="text/javascript" th:src="@{/js/category/category.js}"></script>
+</section>
+</body>
+</html>

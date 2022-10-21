@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout.html :: layout(~{::head}, ~{::section})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+</head>
+<body>
+
+<section>
+    <div>
+        <p>id</p>
+        <input type="text" th:value="${posts.id}">
+        <input type="text" th:value="${posts.title}">
+        <input type="text" th:value="${posts.content}">
+        <input type="text" th:value="${posts.category.id}">
+        <input type="text" th:value="${posts.category.name}">
+
+        <img th:src="${posts.thumbnailUrl}" alt="">
+    </div>
+
+    <div>
+        <p>title</p>
+    </div>
+
+    <div>
+        <p>content</p>
+    </div>
+</section>
+</body>
+</html>

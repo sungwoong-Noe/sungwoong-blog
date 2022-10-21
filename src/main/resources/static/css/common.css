@@ -1,0 +1,7 @@
+/* 폰트 불러오기 */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+
+html {
+    font-family: "Noto Sans KR", sans-serif;
+}

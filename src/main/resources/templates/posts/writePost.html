@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout.html :: layout(~{::head}, ~{::section})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>작성</title>
+    <!-- TOAST UI Editor CDN URL(CSS)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+    <style>
+        section {
+            text-align:  center;
+        }
+        #editor {
+            border : 1px solid;
+            width : 50%;
+            margin : 0 auto;
+        }
+
+        .field-error{
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+<section>
+    <div>
+        <input type="file" placeholder="썸네일" id="thumbnail">
+        <button type="button" id="btn_thumbnail_upload">썸네일 등록</button>
+        <img id="thumbnail_preview" src=""  width="50" height="50"></img>
+
+    </div>
+
+
+    <form th:action="@{/write}" method="post" th:object="${postRequest}" id="postForm" >
+        <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">
+        <div>
+            <label for="title">제목</label>
+            <input type="text" placeholder="제목" id="title" name="title" th:field="*{title}">
+        </div>
+
+        <div th:errors="*{title}"></div>
+
+        <input type="text" name="content" id="contents" hidden>
+        <input type="text" name="categoryId" id="" value="2" hidden>
+
+
+        <div>
+            <div id="editor"></div>
+        </div>
+    </form>
+
+    <button type-="button" id="btn_write">저장</button>
+
+
+    <button id="test">테스트</button>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js" defer></script>
+    <script src="/js/toastEditor.js" defer></script>
+    <script src="/js/thumbnail.js" defer></script>
+</section>
+</body>
+</html>
