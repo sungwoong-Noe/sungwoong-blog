@@ -47,7 +47,7 @@ class CategoryServiceTest {
 
 
     @Test
-    void getParentCategoryOne(){
+    void 부모카테고리_하나조회(){
         //given
         Long categoryId = 2L;
 
@@ -60,5 +60,4 @@ class CategoryServiceTest {
         //then
         Assertions.assertThat(parentCategoryResponse.getChildCategories().size()).isEqualTo(childCategories.size());
     }
-
 }

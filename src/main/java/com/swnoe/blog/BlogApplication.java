@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EntityScan("com.swnoe.blog.domain")
-@EnableJpaAuditing
+//@EnableJpaAuditing
 @Import(LogTraceAspectConfig.class)
 public class BlogApplication {
 

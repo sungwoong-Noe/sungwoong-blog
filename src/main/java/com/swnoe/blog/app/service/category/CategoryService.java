@@ -3,6 +3,7 @@ package com.swnoe.blog.app.service.category;
 import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
+import com.swnoe.blog.dto.request.category.ParentCategoryForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,6 @@ public class CategoryService {
     public CategoryResponse regist(CategoryRegistForm registForm){
 
         Category categoryForm;
-        CategoryResponse response;
 
         Category.CategoryBuilder categoryFormBuilder = Category.builder()
                                                 .categoryName(registForm.getName());
@@ -46,6 +46,8 @@ public class CategoryService {
 
         return saveCategory.toResponseDto();
     }
+
+
 
     public List<CategoryResponse> parentCategoryList(){
 
@@ -71,5 +73,14 @@ public class CategoryService {
         ParentCategoryResponse parentCategoryResponse = parentCategory.toParentResponseDTO(childResponseCategories);
 
         return parentCategoryResponse;
+    }
+
+    @Transactional
+    public Category  registParentCategory(ParentCategoryForm request) {
+
+        Category parentCategory = request.toEntity();
+        categoryRepository.save(parentCategory);
+
+        return parentCategory;
     }
 }
