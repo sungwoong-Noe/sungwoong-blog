@@ -1,6 +1,7 @@
 package com.swnoe.blog.app.service.post;
 
 import com.swnoe.blog.app.repository.CategoryRepository;
+import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.domain.post.Posts;
 import com.swnoe.blog.dto.request.post.PostRequest;
 import com.swnoe.blog.dto.response.post.PostResponse;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
+
+    private final static int TEMPORARY_CATEGORY_SEQ = 0;
 
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
@@ -33,7 +36,15 @@ public class PostService {
 
         Posts post = postRequest.toEntity();
 
-        post.setCategory(categoryRepository.findById(postRequest.getCategoryId()).get());
+        Category category;
+
+        if(postRequest.getCategoryId() == null){
+            category = categoryRepository.findByDepth(TEMPORARY_CATEGORY_SEQ).get(0);
+        } else{
+            category = categoryRepository.findById(postRequest.getCategoryId()).get();
+        }
+
+        post.setCategory(category);
         Posts savedPost = postRepository.save(post);
 
         return savedPost.toResponseDto();

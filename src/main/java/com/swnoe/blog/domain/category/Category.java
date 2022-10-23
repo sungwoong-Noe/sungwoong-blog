@@ -3,6 +3,7 @@ package com.swnoe.blog.domain.category;
 import com.swnoe.blog.domain.base.BaseEntity;
 import com.swnoe.blog.domain.post.Posts;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
+import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -66,6 +67,18 @@ public class Category extends BaseEntity {
         }else{
             return responseBuilder.parentId(null).build();
         }
+    }
+
+    //Category(Parent) -> ParentCategoryResponse
+    public ParentCategoryResponse toParentResponseDTO(List<CategoryResponse> childCategories){
+        return ParentCategoryResponse.builder()
+                .id(this.id)
+                .name(this.name)
+                .depth(this.depth)
+                .childCategories(childCategories)
+                .build();
+
+
     }
 }
 

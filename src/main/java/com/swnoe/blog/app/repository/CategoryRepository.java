@@ -9,5 +9,8 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    public List<Category> findCategoryByParentIsNull();
+
+    public List<Category> findCategoryByParentIsNullAndDepth(int depth);
+    public List<Category> findByDepth(int temporaryCategory);
+
 }
