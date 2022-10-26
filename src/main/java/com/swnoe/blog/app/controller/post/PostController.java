@@ -57,18 +57,4 @@ public class PostController {
         return "posts/post";
     }
 
-//    @GetMapping("/post/{postId}")
-//    @ResponseBody
-    //    public PostResponse getPost(@PathVariable Long postId){
-//        PostResponse response = postService.findById(postId);
-//        return response;
-//    }
-
-//    @PostMapping("/post")
-//    @ResponseBody
-//    public Long savePost(@RequestBody @Valid PostRequest postRequest){
-//        Long postId = postService.savePost(postRequest);
-//        return postId;
-//    }
-
 }

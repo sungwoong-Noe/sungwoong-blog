@@ -70,4 +70,12 @@ class PostServiceTest {
         System.out.println(postsCategory.getName());
         Assertions.assertThat(category2.getName()).isEqualTo(postsCategory.getName());
     }
+
+    @Test
+    @Transactional
+    void 테스트(){
+        Posts posts = postRepository.findById(1L).get();
+
+        System.out.println("posts = " + posts.getCategory().getName());
+    }
 }

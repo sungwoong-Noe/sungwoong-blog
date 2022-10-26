@@ -58,6 +58,7 @@ public class CategoryService {
         return parentCategoryResponseList;
     }
 
+    @Transactional
     public ParentCategoryResponse getParentCategory(Long parentId){
         Category parentCategory = categoryRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException("조회된 카테고리 없음"));
         List<Category> childCategories = parentCategory.getChild();
@@ -68,19 +69,16 @@ public class CategoryService {
                         .name(child.getName())
                         .parentId(parentId)
                         .depth(child.getDepth())
-                        .build()).collect(Collectors.toList());
+                        .build())
+                .collect(Collectors.toList());
 
         ParentCategoryResponse parentCategoryResponse = parentCategory.toParentResponseDTO(childResponseCategories);
 
         return parentCategoryResponse;
     }
 
-    @Transactional
-    public Category  registParentCategory(ParentCategoryForm request) {
 
-        Category parentCategory = request.toEntity();
-        categoryRepository.save(parentCategory);
 
-        return parentCategory;
-    }
+
+
 }

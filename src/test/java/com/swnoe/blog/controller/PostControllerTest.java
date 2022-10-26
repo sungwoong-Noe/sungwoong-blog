@@ -3,6 +3,7 @@ package com.swnoe.blog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swnoe.blog.dto.request.post.PostRequest;
 import com.swnoe.blog.app.repository.PostRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultHandler;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.ContentResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.xml.transform.Result;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,39 +43,45 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("게시글 저장 컨트롤러")
-    void 게시글_저장() throws Exception {
-
-        //given
-        PostRequest request = PostRequest.builder()
-                .title("제목1")
-                .content("게시글1")
-                .build();
-        String jsonData = objectMapper.writeValueAsString(request);
+    @DisplayName("루트 페이지 Get 요청")
+    void home() throws Exception {
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.post("/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonData))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        mockMvc.perform(get("/"))
+                .andExpect(view().name("posts/postList"))
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("게시글 저장 - 예외")
-    void 게시글_저장_예외() throws Exception {
-        //given
-        PostRequest request = PostRequest.builder()
-                .title("제목1")
-                .build();
-        String jsonData = objectMapper.writeValueAsString(request);
+    @DisplayName("게시글 저장")
+    void write() throws Exception {
 
         //expected
-        mockMvc.perform(MockMvcRequestBuilders.post("/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonData))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+        mockMvc.perform(post("/write")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("title", "제목")
+                .param("content", "내용")
+                .param("thumbnailUrl", "섬네일")
+                .param("categoryId", "1"))
+                .andExpect(redirectedUrlPattern("/post/*"))
                 .andDo(print());
+
+        //then
+        Assertions.assertThat(postRepository.count()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("게시글 저장 - 예외")
+    void write_exception() throws Exception {
+
+        //expected
+        mockMvc.perform(post("/write")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("title", "")
+                .param("content", ""))
+                .andExpect(view().name("posts/writePost"))
+                .andDo(print());
+
     }
 
 }

@@ -5,6 +5,7 @@ import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
 import com.swnoe.blog.dto.request.category.ParentCategoryForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
+import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,5 +31,15 @@ public class CategoryController {
         CategoryResponse response = categoryService.regist(registForm);
         return response;
     }
+
+
+    @GetMapping("/category/{id}")
+    @ResponseBody
+    public ParentCategoryResponse getCategory(@PathVariable(value = "id") Long parentCategoryId){
+
+        return categoryService.getParentCategory(parentCategoryId);
+    }
+
+
 
 }

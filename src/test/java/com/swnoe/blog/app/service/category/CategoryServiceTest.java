@@ -9,8 +9,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,4 +63,24 @@ class CategoryServiceTest {
         //then
         Assertions.assertThat(parentCategoryResponse.getChildCategories().size()).isEqualTo(childCategories.size());
     }
+
+
+    @Test
+    @Transactional
+    void 부모카테고리_List조회(){
+
+        //given
+        Long parentCategoryId = 2L;
+
+
+        //when
+        ParentCategoryResponse parentCategory = categoryService.getParentCategory(parentCategoryId);
+        Category category = categoryRepository.findById(parentCategoryId).get();
+
+
+        //then
+        Assertions.assertThat(parentCategory.getChildCategories().size()).isEqualTo(category.getChild().size());
+        Assertions.assertThat(parentCategory.getName()).isEqualTo(category.getName());
+    }
+
 }
