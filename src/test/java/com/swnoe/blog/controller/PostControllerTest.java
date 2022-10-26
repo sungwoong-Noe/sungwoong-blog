@@ -48,6 +48,7 @@ class PostControllerTest {
 
         //expected
         mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
                 .andExpect(view().name("posts/postList"))
                 .andDo(print());
     }
@@ -63,6 +64,7 @@ class PostControllerTest {
                 .param("content", "내용")
                 .param("thumbnailUrl", "섬네일")
                 .param("categoryId", "1"))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/post/*"))
                 .andDo(print());
 
@@ -79,6 +81,7 @@ class PostControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("title", "")
                 .param("content", ""))
+                .andExpect(status().isOk())
                 .andExpect(view().name("posts/writePost"))
                 .andDo(print());
 
