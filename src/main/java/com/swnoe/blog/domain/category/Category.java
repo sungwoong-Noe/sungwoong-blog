@@ -39,7 +39,8 @@ public class Category extends BaseEntity {
 
 
     @Builder
-    public Category(String categoryName, Category parent, int depth){
+    public Category(Long id, String categoryName, Category parent, int depth){
+        this.id = id;
         this.name = categoryName;
         this.parent = parent;
         this.depth = depth;

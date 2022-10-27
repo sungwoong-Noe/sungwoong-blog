@@ -1,4 +1,4 @@
-package com.swnoe.blog.controller;
+package com.swnoe.blog.app.controller.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swnoe.blog.dto.request.post.PostRequest;

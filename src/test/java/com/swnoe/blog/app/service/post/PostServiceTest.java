@@ -1,4 +1,4 @@
-package com.swnoe.blog.service;
+package com.swnoe.blog.app.service.post;
 
 import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.app.service.category.CategoryService;

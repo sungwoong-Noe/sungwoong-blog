@@ -52,9 +52,8 @@ public class CategoryService {
     public List<CategoryResponse> parentCategoryList(){
 
         List<CategoryResponse> parentCategoryResponseList  = categoryRepository.findCategoryByParentIsNullAndDepth(PARENT_CATEGORY_DEPTH).stream()
-                                                                                .map(parent -> {
-                                                                                    return parent.toResponseDto();
-                                                                                }).collect(Collectors.toList());
+                                                                                .map(parent -> parent.toResponseDto())
+                                                                                .collect(Collectors.toList());
         return parentCategoryResponseList;
     }
 
