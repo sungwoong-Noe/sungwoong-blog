@@ -133,8 +133,6 @@ class CategoryServiceTest {
                 .depth(1)
                 .build();
 
-        List<Category> childList = new ArrayList<>();
-
         for (int i = 1; i < 4; i++ ){
             Category child = Category.builder().categoryName("자식" + i).parent(parent).id(Long.valueOf(i + 1)).depth(2).build();
             parent.addChildCategory(child);
