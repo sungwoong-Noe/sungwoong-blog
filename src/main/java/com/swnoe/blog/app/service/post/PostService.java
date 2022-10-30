@@ -6,6 +6,7 @@ import com.swnoe.blog.domain.post.Posts;
 import com.swnoe.blog.dto.request.post.PostRequest;
 import com.swnoe.blog.dto.response.post.PostResponse;
 import com.swnoe.blog.app.repository.PostRepository;
+import com.swnoe.blog.exception.PostNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,7 @@ public class PostService {
     public PostResponse findById(Long postId){
 
         Posts posts = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 게시글이 없습니다"));
+                .orElseThrow(() -> new PostNotFound("일치하는 게시글이 없습니다"));
 
         PostResponse postResponse = posts.toResponseDto();
 

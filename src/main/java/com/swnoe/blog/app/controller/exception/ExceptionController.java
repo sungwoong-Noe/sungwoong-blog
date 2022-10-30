@@ -2,6 +2,7 @@ package com.swnoe.blog.app.controller.exception;
 
 import com.swnoe.blog.dto.response.error.ErrorResponse;
 import com.swnoe.blog.exception.CategoryNotFound;
+import com.swnoe.blog.exception.PostNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,5 +46,11 @@ public class ExceptionController {
                 .build();
 
         return response;
+    }
+
+    @ExceptionHandler(PostNotFound.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String postNotFound(){
+        return "exception/400";
     }
 }
