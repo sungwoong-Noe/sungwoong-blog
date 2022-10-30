@@ -48,11 +48,15 @@ public class Category extends BaseEntity {
 
     public void addChildCategory(Category child){
         this.child.add(child);
-        child.setParent(this);
     }
 
     public void setParent(Category parent){
+        if(this.parent != null){
+            this.parent.getChild().remove(this);
+        }
+
         this.parent = parent;
+        parent.addChildCategory(this);
     }
 
 
@@ -78,7 +82,11 @@ public class Category extends BaseEntity {
                 .depth(this.depth)
                 .childCategories(childCategories)
                 .build();
+    }
 
+    public void updateCategory(String name){
+
+        this.name = name;
 
     }
 }

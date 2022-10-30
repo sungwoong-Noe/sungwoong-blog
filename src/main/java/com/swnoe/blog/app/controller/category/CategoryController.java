@@ -3,6 +3,7 @@ package com.swnoe.blog.app.controller.category;
 import com.swnoe.blog.app.service.category.CategoryService;
 import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
+import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.request.category.ParentCategoryForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
@@ -41,5 +42,10 @@ public class CategoryController {
     }
 
 
-
+    @PatchMapping("/category/update/{id}")
+    @ResponseBody
+    public CategoryResponse updateCategory(@RequestBody CategoryUpdateForm request, @PathVariable Long id){
+        request.setId(id);
+        return categoryService.update(request);
+    }
 }

@@ -3,9 +3,11 @@ package com.swnoe.blog.app.service.category;
 import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
+import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.request.category.ParentCategoryForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
+import com.swnoe.blog.exception.CategoryNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +78,20 @@ public class CategoryService {
         return parentCategoryResponse;
     }
 
+
+    @Transactional
+    public CategoryResponse update(CategoryUpdateForm request){
+
+        Category category = categoryRepository.findById(request.getId()).orElseThrow(() -> new CategoryNotFound("조회된 카테고리가 없습니다."));
+        if(request.getParentId() != null){
+            Category parent = categoryRepository.findById(request.getParentId()).orElseThrow(() -> new CategoryNotFound("조회된 카테고리가 없습니다."));
+            category.setParent(parent);
+        }
+
+        category.updateCategory(request.getName());
+
+        return category.toResponseDto();
+    }
 
 
 

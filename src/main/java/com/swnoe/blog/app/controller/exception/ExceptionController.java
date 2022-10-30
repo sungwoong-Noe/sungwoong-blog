@@ -1,6 +1,7 @@
 package com.swnoe.blog.app.controller.exception;
 
 import com.swnoe.blog.dto.response.error.ErrorResponse;
+import com.swnoe.blog.exception.CategoryNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,5 +32,18 @@ public class ExceptionController {
         }
 
         return response.validation(validation).build();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(CategoryNotFound.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse categoryNotFound(CategoryNotFound e){
+
+        ErrorResponse response = ErrorResponse.builder()
+                .message(e.getMessage())
+                .code("500")
+                .build();
+
+        return response;
     }
 }

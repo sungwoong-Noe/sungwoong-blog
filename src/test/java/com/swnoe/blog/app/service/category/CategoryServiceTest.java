@@ -4,6 +4,7 @@ package com.swnoe.blog.app.service.category;
 import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
+import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
 import org.assertj.core.api.Assertions;
@@ -148,13 +149,78 @@ class CategoryServiceTest {
         //then
         Assertions.assertThat(parentCategory.getChildCategories().size()).isEqualTo(3);
         Assertions.assertThat(parentCategory.getChildCategories().get(0).getName()).isEqualTo("자식1");
-
     }
 
+    @Test
+    @DisplayName("카테고리 수정 - 부모")
+    void update_parent(){
+        //given
+        CategoryUpdateForm request = CategoryUpdateForm.builder()
+                .name("부모 수정")
+                .build();
+        request.setId(3L);
+
+        Category parent = Category.builder()
+                .id(3L)
+                .depth(1)
+                .categoryName("부모 카테고리")
+                .build();
+
+        when(categoryRepository.findById(any())).thenReturn(Optional.ofNullable(parent));
+
+        //when
+        CategoryResponse response = categoryService.update(request);
+
+
+        //then
+        Assertions.assertThat(response.getName()).isEqualTo(request.getName());
+        Assertions.assertThat(response.getName()).isEqualTo("부모 수정");
+    }
+
+    @Test
+    @DisplayName("카테고리 수정 - 부모")
+    void update_child(){
+        //given
+        CategoryUpdateForm request = CategoryUpdateForm.builder()
+                .name("자식 수정")
+                .parentId(6L)
+                .build();
+        request.setId(4L);
+
+        Category prevParent = Category.builder()
+                .id(4L)
+                .depth(1)
+                .categoryName("부모 카테고리")
+                .build();
+
+
+        Category child = Category.builder()
+                .id(4L)
+                .categoryName("자식 카테고리")
+                .parent(prevParent)
+                .depth(2)
+                .build();
 
 
 
+        Category parent = Category.builder()
+                .id(6L)
+                .depth(1)
+                .categoryName("부모 카테고리")
+                .build();
 
+        when(categoryRepository.findById(child.getId())).thenReturn(Optional.ofNullable(child));
+        when(categoryRepository.findById(parent.getId())).thenReturn(Optional.of(parent));
 
+        //when
+        CategoryResponse response = categoryService.update(request);
+
+        //then
+        Assertions.assertThat(response.getName()).isEqualTo(request.getName());
+        Assertions.assertThat(response.getName()).isEqualTo("자식 수정");
+        Assertions.assertThat(response.getParentId()).isEqualTo(parent.getId());
+        Assertions.assertThat(response.getParentId()).isEqualTo(6L);
+
+    }
 
 }
