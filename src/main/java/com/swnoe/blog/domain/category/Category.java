@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -75,14 +76,25 @@ public class Category extends BaseEntity {
     }
 
     //Category(Parent) -> ParentCategoryResponse
-    public ParentCategoryResponse toParentResponseDTO(List<CategoryResponse> childCategories){
+    public ParentCategoryResponse toParentResponseDTO(List<Category> childCategories){
+
+        List<CategoryResponse> childCategoryResponses = childCategories.stream()
+                .map(child -> CategoryResponse.builder()
+                        .id(child.id)
+                        .name(child.name)
+                        .parentId(this.id)
+                        .depth(child.depth)
+                        .build())
+                .collect(Collectors.toList());
+
         return ParentCategoryResponse.builder()
                 .id(this.id)
                 .name(this.name)
                 .depth(this.depth)
-                .childCategories(childCategories)
+                .childCategories(childCategoryResponses)
                 .build();
     }
+
 
     public void updateCategory(String name){
 

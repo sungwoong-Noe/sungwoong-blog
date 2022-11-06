@@ -115,7 +115,7 @@ class CategoryServiceTest {
         when(categoryRepository.findCategoryByParentIsNullAndDepth(1)).thenReturn(parentCategories);
 
         //when
-        List<CategoryResponse> responseList = categoryService.parentCategoryList();
+        List<ParentCategoryResponse> responseList = categoryService.parentCategoryList();
 
         //then
         Assertions.assertThat(parentCategories.size()).isEqualTo(responseList.size());

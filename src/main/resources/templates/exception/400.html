@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Bad Request</title>
@@ -16,5 +16,7 @@
 400
 400
 400
+
+<input type="text" th:value="${errorMessage}">
 </body>
 </html>

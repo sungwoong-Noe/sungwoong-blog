@@ -18,6 +18,9 @@
         <div th:each="parent: ${parentCategoryList}">
             <p th:text="${parent.name}"></p>
             <input type="hidden" th:value="${parent.id}">
+            <div th:each="child: ${parent.childCategories}">
+                &nbsp&nbsp&nbsp&nbsp 자식::::<p th:text="${child.name}"></p>
+            </div>
             <button class="btn_delete" type="button" onclick="categoryDelete(this)">-</button>
 <!--            <button class="btn_delete" type="button" onclick="categoryRegist(this)">+</button>-->
         </div>

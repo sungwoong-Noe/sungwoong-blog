@@ -126,12 +126,11 @@ class CategoryControllerTest {
     @DisplayName("카테고리 수정 페이지")
     void editForm() throws Exception {
         //expected
-        Map<String, Object> model = mockMvc.perform(get("/category/edit"))
+        mockMvc.perform(get("/category/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("category/categoryEdit"))
-                .andReturn().getModelAndView().getModel();
-
-        System.out.println("model = " + model);
+                .andDo(print())
+                .andExpect(model().attributeExists("parentCategoryList"));
     }
 
     @Test

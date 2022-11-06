@@ -1,7 +1,9 @@
 package com.swnoe.blog.app.service.category;
 
 import com.swnoe.blog.app.repository.CategoryRepository;
+import com.swnoe.blog.app.repository.PostRepository;
 import com.swnoe.blog.domain.category.Category;
+import com.swnoe.blog.domain.post.Posts;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
 import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.request.category.ParentCategoryForm;
@@ -24,6 +26,8 @@ public class CategoryService {
     private final int PARENT_CATEGORY_DEPTH = 1;
 
     private final CategoryRepository categoryRepository;
+
+    private final PostRepository postRepository;
 
 
 
@@ -51,10 +55,10 @@ public class CategoryService {
 
 
 
-    public List<CategoryResponse> parentCategoryList(){
+    public List<ParentCategoryResponse> parentCategoryList(){
 
-        List<CategoryResponse> parentCategoryResponseList  = categoryRepository.findCategoryByParentIsNullAndDepth(PARENT_CATEGORY_DEPTH).stream()
-                                                                                .map(parent -> parent.toResponseDto())
+        List<ParentCategoryResponse> parentCategoryResponseList  = categoryRepository.findCategoryByParentIsNullAndDepth(PARENT_CATEGORY_DEPTH).stream()
+                                                                                .map(parent -> parent.toParentResponseDTO(parent.getChild()))
                                                                                 .collect(Collectors.toList());
         return parentCategoryResponseList;
     }
@@ -64,16 +68,16 @@ public class CategoryService {
         Category parentCategory = categoryRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException("조회된 카테고리 없음"));
         List<Category> childCategories = parentCategory.getChild();
 
-        List<CategoryResponse> childResponseCategories = childCategories.stream()
-                .map(child -> CategoryResponse.builder()
-                        .id(child.getId())
-                        .name(child.getName())
-                        .parentId(parentId)
-                        .depth(child.getDepth())
-                        .build())
-                .collect(Collectors.toList());
+//        List<CategoryResponse> childResponseCategories = childCategories.stream()
+//                .map(child -> CategoryResponse.builder()
+//                        .id(child.getId())
+//                        .name(child.getName())
+//                        .parentId(parentId)
+//                        .depth(child.getDepth())
+//                        .build())
+//                .collect(Collectors.toList());
 
-        ParentCategoryResponse parentCategoryResponse = parentCategory.toParentResponseDTO(childResponseCategories);
+        ParentCategoryResponse parentCategoryResponse = parentCategory.toParentResponseDTO(childCategories);
 
         return parentCategoryResponse;
     }
