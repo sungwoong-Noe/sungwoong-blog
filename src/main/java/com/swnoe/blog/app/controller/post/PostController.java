@@ -27,6 +27,7 @@ public class PostController {
     public String home(Model model){
         List<PostResponse> postList = postService.postList();
         model.addAttribute("postList", postList);
+        model.addAttribute("category", categoryService.parentCategoryList());
         return "posts/postList";
     }
 

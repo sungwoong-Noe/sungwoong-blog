@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<div th:fragment="sideBar">
+
+    <ul>
+        <li><a th:href="@{/write}">글 쓰기</a></li>
+        <li><a th:href="@{/category/edit}">카테고리 수정</a></li>
+    </ul>
+    <ul>
+        <li th:each="parent: ${category}" >
+            <a href="" th:text="${parent.name}"></a>
+            <ul>
+                <li th:each="child: ${parent.childCategories}">
+                    <a href="" th:text="${child.name}"></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
