@@ -2,6 +2,7 @@ package com.swnoe.blog.app.controller.post;
 
 import com.swnoe.blog.app.service.category.CategoryService;
 import com.swnoe.blog.dto.request.post.PostRequest;
+import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
 import com.swnoe.blog.dto.response.post.PostResponse;
 import com.swnoe.blog.app.service.post.PostService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,6 @@ public class PostController {
     public String home(Model model){
         List<PostResponse> postList = postService.postList();
         model.addAttribute("postList", postList);
-        model.addAttribute("category", categoryService.parentCategoryList());
         return "posts/postList";
     }
 
@@ -56,6 +56,12 @@ public class PostController {
 
         model.addAttribute("posts", response);
         return "posts/post";
+    }
+
+
+    @ModelAttribute("category")
+    public List<ParentCategoryResponse> categoryList(){
+        return categoryService.parentCategoryList();
     }
 
 }

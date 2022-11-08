@@ -36,3 +36,6 @@ thumbnailUploadBtn.addEventListener("click", () =>{
 
 
 
+
+
+

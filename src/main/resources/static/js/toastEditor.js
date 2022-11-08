@@ -125,3 +125,22 @@ const checkContent = () => {
     }
     return contents.value !== "";
 }
+
+
+
+document.getElementById("parentCategory").addEventListener("change", selectParent);
+
+
+function selectParent(e){
+    const parentId = +e.target.value;
+    let childList = Category.getChildList(parentId).childCategories;
+
+    let childCategoryOption = `<option value="" disabled selected>소분류</option>`;
+    childList.forEach(child => {
+        childCategoryOption += `<option value="${child.id}" name="childCategory">${child.name}</option>`
+    });
+
+    let childSelect = document.getElementById('childCategory');
+    childSelect.innerHTML = childCategoryOption;
+}
+
