@@ -9,6 +9,7 @@ import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.request.category.ParentCategoryForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
+import com.swnoe.blog.dto.response.post.PostResponse;
 import com.swnoe.blog.exception.CategoryNotFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -96,8 +97,6 @@ public class CategoryService {
 
         return category.toResponseDto();
     }
-
-
 
 
 }

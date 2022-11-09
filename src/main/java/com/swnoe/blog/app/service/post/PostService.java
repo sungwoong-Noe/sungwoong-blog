@@ -62,4 +62,12 @@ public class PostService {
         return postResponse;
     }
 
+    public List<PostResponse> postsByCategory(Long categoryId){
+
+        List<Posts> postsByCategoryId = postRepository.findPostsByCategoryId(categoryId);
+
+        return  postsByCategoryId.stream().map(p -> p.toResponseDto()).collect(Collectors.toList());
+    }
+
+
 }

@@ -151,4 +151,44 @@ class PostServiceTest {
         Assertions.assertThat(response.getThumbnailUrl()).isEqualTo(post.getThumbnailUrl());
         Assertions.assertThat(response.getCategory().getName()).isEqualTo(category.getName());
     }
+
+    @Test
+    @DisplayName("조회 - 카테고리별 게시글")
+    void postsByCategroyId() {
+        //given
+        Posts post = Posts.builder()
+                .title("제목")
+                .content("내용")
+                .thumbnailUrl("thumb")
+                .build();
+
+        Posts post2 = Posts.builder()
+                .title("제목2")
+                .content("내용2")
+                .thumbnailUrl("thumb")
+                .build();
+
+        Category category = Category.builder()
+                .depth(0)
+                .categoryName("임시")
+                .build();
+
+        post.setCategory(category);
+        post2.setCategory(category);
+
+        List<Posts> postsByCategory = new ArrayList<>();
+        postsByCategory.add(post);
+        postsByCategory.add(post2);
+
+
+        when(postRepository.findPostsByCategoryId(any())).thenReturn(postsByCategory);
+
+        //when
+        List<PostResponse> responses = postService.postsByCategory(0L);
+
+        //then
+        Assertions.assertThat(responses.size()).isEqualTo(2);
+        Assertions.assertThat(responses.get(0).getTitle()).isEqualTo("제목");
+
+    }
 }

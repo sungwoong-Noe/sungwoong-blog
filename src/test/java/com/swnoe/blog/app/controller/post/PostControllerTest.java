@@ -87,4 +87,21 @@ class PostControllerTest {
 
     }
 
+
+    @Test
+    @DisplayName("게시글 조회 - 카테고리별")
+    void postsByCategory() throws Exception {
+
+        //given
+        Long categoryId = 5L;
+
+        //expected
+        mockMvc.perform(get("/posts/{categoryId}", categoryId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("posts/postsByCategory"))
+                .andExpect(model().attributeExists("posts"))
+                .andDo(print());
+    }
+
+
 }

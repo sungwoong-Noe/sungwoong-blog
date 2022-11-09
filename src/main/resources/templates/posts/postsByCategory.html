@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layout.html :: layout(~{::head}, ~{::section})}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>카테고리 정보</title>
+</head>
+<body>
+<section>
+  카테고리에 속한 게시글
+
+  <div>
+
+    <table border = "1">
+      <th>번호</th>
+      <th>제목</th>
+      <th>내용</th>
+      <th>카테고리</th>
+      <th>썸네일url</th>
+
+      <tr th:each="post: ${posts}">
+        <td th:text="${post.id}"></td>
+        <td th:text="${post.title}"></td>
+        <td th:text="${post.content}"></td>
+        <td th:text="${post.category.name}"></td>
+        <td>
+          <img th:src="${post.thumbnailUrl}" alt="">
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</section>
+</body>
+</html>

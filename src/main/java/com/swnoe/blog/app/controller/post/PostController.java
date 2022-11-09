@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Log4j2
 @Controller
@@ -58,10 +57,19 @@ public class PostController {
         return "posts/post";
     }
 
+    @GetMapping("/posts/{categoryId}")
+    public String postsByCategory(@PathVariable Long categoryId, Model model){
+
+        model.addAttribute("posts", postService.postsByCategory(categoryId));
+        return "posts/postsByCategory";
+    }
+
+
 
     @ModelAttribute("category")
     public List<ParentCategoryResponse> categoryList(){
         return categoryService.parentCategoryList();
     }
+
 
 }

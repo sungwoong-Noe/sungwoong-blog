@@ -12,7 +12,7 @@
             <a href="" th:text="${parent.name}"></a>
             <ul>
                 <li th:each="child: ${parent.childCategories}">
-                    <a href="" th:text="${child.name}"></a>
+                    <a th:href="@{/posts/{categoryId}(categoryId = ${child.id})}" th:text="${child.name}"></a>
                 </li>
             </ul>
         </li>
