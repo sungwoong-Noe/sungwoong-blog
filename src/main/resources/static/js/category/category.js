@@ -30,15 +30,11 @@ document.getElementById('btn_parentCategory_regist').addEventListener("click", (
 
             console.log(typeof xhr.response);
             let response = JSON.parse(xhr.response);
-            console.log(typeof response);
-            console.log(response.name);
-            console.log(response.id);
 
             let parentCategoryList_div = document.getElementById('parentCategoryList');
             parentCategoryList_div.innerHTML += `<div>
-                                                    <p>${response.name}</p>
-                                                    <input type="hidden" value="${response.id}">
-                                                    <button class="btn_delete" type="button" onclick="categoryDelete(this)">-</button>
+                                                    <p style="cursor: pointer; display: inline;" onclick="selectParent(${response.id})">${response.name}</p>
+                                                    <button type="button" id="btn_deleteCategroy" onclick="categoryDelete(${response.id}})">삭제</button>
                                                   </div>`;
         }
     }
@@ -53,3 +49,47 @@ let parentName_check = () => {
         return parentCategoryName;
     }
 }
+
+
+const selectParent = (parentId) => {
+
+
+    let childCategories = '';
+
+    const childList = Category.getChildList(parentId).childCategories;
+
+    childList.forEach(child => {
+
+        childCategories +=
+            `<div>
+                <p>${child.name}</p>
+                <input type="hidden" value="${child.id}"> 
+            </div>`;
+
+    });
+
+
+    document.getElementById('childCategory').innerHTML = childCategories;
+}
+
+
+const deleteCategory = (categoryId, clickTag) => {
+    if(confirm('삭제하시겠습니까?')) {
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("DELETE", `/category/delete/${categoryId}`, false);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send();
+
+
+        if(xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                clickTag.parentNode.remove();
+            }
+        }
+    }
+}
+
+
+
+

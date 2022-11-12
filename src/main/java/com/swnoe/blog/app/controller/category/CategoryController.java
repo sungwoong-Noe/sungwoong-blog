@@ -34,7 +34,7 @@ public class CategoryController {
 
     @GetMapping("/category/{id}")
     @ResponseBody
-    public ParentCategoryResponse getCategory(@PathVariable(value = "id") Long parentCategoryId){
+    public ParentCategoryResponse getCategory(@PathVariable(value = "id") Long parentCategoryId) {
 
         return categoryService.getParentCategory(parentCategoryId);
     }
@@ -42,9 +42,18 @@ public class CategoryController {
 
     @PatchMapping("/category/update/{id}")
     @ResponseBody
-    public CategoryResponse updateCategory(@RequestBody CategoryUpdateForm request, @PathVariable Long id){
+    public CategoryResponse updateCategory(@RequestBody CategoryUpdateForm request, @PathVariable Long id) {
         request.setId(id);
         return categoryService.update(request);
     }
+
+    @DeleteMapping("/category/delete/{categoryId}")
+    @ResponseBody
+    public void deleteCategory(@PathVariable Long categoryId) {
+        categoryService.delete(categoryId);
+
+    }
+
+
 
 }

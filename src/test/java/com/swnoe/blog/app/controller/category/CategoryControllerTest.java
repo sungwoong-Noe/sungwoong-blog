@@ -2,11 +2,14 @@ package com.swnoe.blog.app.controller.category;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.app.service.category.CategoryService;
+import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
 import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
 import com.swnoe.blog.dto.response.category.ParentCategoryResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ class CategoryControllerTest {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -165,6 +171,7 @@ class CategoryControllerTest {
                 .name("자식 수정")
                 .build();
 
+        //expected
         mockMvc.perform(patch("/category/update/{id}", cateogryId)
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -175,7 +182,57 @@ class CategoryControllerTest {
                 .andExpect(jsonPath("$.parentId").value(9L))
                 .andDo(print());
 
+    }
 
+    @Test
+    @DisplayName("카테고리 - 삭제(성공)")
+    void delete_success() throws Exception {
+        //given
+        CategoryRegistForm request = CategoryRegistForm.builder()
+                .name("카테고리")
+                .build();
+
+
+        CategoryResponse response = categoryService.regist(request);
+
+        int beforeCount = categoryRepository.findAll().size();
+
+        //when
+        mockMvc.perform(delete("/category/delete/{categoryId}", response.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        int afterCount = categoryRepository.findAll().size();
+
+        //then
+        Assertions.assertThat(afterCount).isEqualTo(beforeCount - 1);
+    }
+
+    @Test
+    @DisplayName("카테고리 - 삭제(실패)")
+    void delete_fail() throws Exception {
+        //given
+//        Category parent = Category.builder()
+//                .categoryName("부모")
+//                .depth(1)
+//                .build();
+//
+//        Category save = categoryRepository.save(parent);
+//
+//        Category child = Category.builder()
+//                .categoryName("자식")
+//                .depth(2)
+//                .build();
+//
+//        child.setParent(save);
+//
+//        categoryRepository.save(child);
+
+
+        //expected
+        mockMvc.perform(delete("/category/delete/{categoryId}", 2))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
 }

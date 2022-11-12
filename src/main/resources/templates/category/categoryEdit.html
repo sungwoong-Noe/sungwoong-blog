@@ -12,21 +12,40 @@
     <div>
         <label for="parentCategoryName">대분류</label>
         <input type="text" id="parentCategoryName" name="name" placeholder="카테고리 이름">
-        <button id="btn_parentCategory_regist">+</button>
+        <input type="hidden" id="parentCategoryDepth" name="name">
+        <button type="button" id="btn_parentCategory_regist">+</button>
     </div>
-    <div id="parentCategoryList">
-        <div th:each="parent: ${parentCategoryList}">
-            <p th:text="${parent.name}"></p>
-            <input type="hidden" th:value="${parent.id}">
-            <div th:each="child: ${parent.childCategories}">
-                &nbsp&nbsp&nbsp&nbsp 자식::::<p th:text="${child.name}"></p>
+
+
+    <div style="display: flex; flex-direction: row">
+        <div id="parentCategoryList">
+            <div th:each="parent: ${parentCategoryList}">
+                <p th:text="${parent.name}" style="cursor: pointer; display: inline;" th:onclick="|selectParent(${parent.id})|"></p>
+                <button th:if="${#lists.isEmpty(parent.childCategories)}" type="button" id="btn_deleteCategory" th:onclick="|deleteCategory(${parent.id}, this)|">삭제 </button>
             </div>
-            <button class="btn_delete" type="button" onclick="categoryDelete(this)">-</button>
-<!--            <button class="btn_delete" type="button" onclick="categoryRegist(this)">+</button>-->
+        </div>
+
+        <div id="childCategory">
+
         </div>
     </div>
 
-<script type="text/javascript" th:src="@{/js/category/category.js}"></script>
+<script type="text/javascript" th:src="@{/js/category/category.js}" defer></script>
+<script th:inline="javascript" defer>
+    const Category = {
+        /*<![CDATA[*/
+
+        parent: /*[[${parentCategoryList}]]*/,
+        getChildList(parentId){
+            return this.parent.filter(parent => parent.id === parentId)[0];
+        }
+        /*]]>*/
+    }
+
+    console.log(Category.parent);
+</script>
+
+</script>
 </section>
 </body>
 </html>

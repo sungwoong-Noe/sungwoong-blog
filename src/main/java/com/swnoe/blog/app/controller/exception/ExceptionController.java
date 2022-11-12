@@ -1,6 +1,7 @@
 package com.swnoe.blog.app.controller.exception;
 
 import com.swnoe.blog.dto.response.error.ErrorResponse;
+import com.swnoe.blog.exception.CategoryDeleteFailed;
 import com.swnoe.blog.exception.CategoryNotFound;
 import com.swnoe.blog.exception.PostNotFound;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class ExceptionController {
 
         ErrorResponse response = ErrorResponse.builder()
                 .message(e.getMessage())
-                .code("500")
+                .code("400")
                 .build();
 
         return response;
@@ -54,5 +55,17 @@ public class ExceptionController {
     public String postNotFound(PostNotFound e, Model model){
         model.addAttribute("errorMessage", e.getMessage());
         return "exception/400";
+    }
+
+    @ExceptionHandler(CategoryDeleteFailed.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse categoryDeleteFailed(CategoryDeleteFailed e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code("400")
+                .message(e.getMessage())
+                .build();
+
+        return response;
     }
 }
