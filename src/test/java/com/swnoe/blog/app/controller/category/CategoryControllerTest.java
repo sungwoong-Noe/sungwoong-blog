@@ -1,10 +1,8 @@
 package com.swnoe.blog.app.controller.category;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swnoe.blog.app.repository.CategoryRepository;
 import com.swnoe.blog.app.service.category.CategoryService;
-import com.swnoe.blog.domain.category.Category;
 import com.swnoe.blog.dto.request.category.CategoryRegistForm;
 import com.swnoe.blog.dto.request.category.CategoryUpdateForm;
 import com.swnoe.blog.dto.response.category.CategoryResponse;
@@ -14,25 +12,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@ExtendWith(SpringExtension.class)
-//@WebMvcTest(CategoryController.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class CategoryControllerTest {

@@ -105,10 +105,27 @@ document.getElementById('btn_write').addEventListener("click", () => {
     if(!checkTitle()) {
         alert('제목을 입력해주세요');
         return false;
-    }else if(!checkContent()){
+    }
+    if(!checkParentCategory()){
+        alert("부모카테고리를 선택해주세요.");
+        return false;
+    }
+
+    if(!checkChildCategory()){
+        alert("자식 카테고리를 입력해주세요");
+        return false;
+    }
+    if(!checkContent()){
         alert('내용은 1 ~ 65535자 이하여야 합니다.');
         return false;
     }
+
+    if (!checkThumbnail()) {
+        alert('썸네일을 등록해주세요');
+        return false;
+    }
+
+
     let form = document.getElementById("postForm");
     form.action = "/write";
     form.method = "POST";
@@ -125,6 +142,20 @@ const checkContent = () => {
     }
     return contents.value !== "";
 }
+
+const checkThumbnail = () => {
+    return document.getElementById("thumbnailUrl").value !== "";
+}
+
+const checkParentCategory = () => {
+    return document.getElementById("parentCategory").value !== "";
+}
+
+const checkChildCategory = () => {
+    return document.getElementById("childCategory").value !== "";
+}
+
+
 
 
 
